@@ -3,9 +3,7 @@ import { stripe } from "@/lib/stripe";
 import { issueTicketsForSession } from "@/lib/ticket-service";
 
 // CRITICAL: disable Next.js body parsing — Stripe needs the raw body
-export const config = {
-  api: { bodyParser: false },
-};
+
 
 export async function POST(req) {
   const body = await req.text();
