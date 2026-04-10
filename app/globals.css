@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --green: #39FF14;
+  --gold: #D4AF37;
+  --black: #070707;
+  --dark: #0d0d0d;
+  --muted: #888888;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--black);
+  color: #fafafa;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+::selection { background: rgba(57,255,20,0.25); }
+
+@layer utilities {
+  .bg-brand-black { background-color: #070707; }
+  .bg-brand-dark  { background-color: #0d0d0d; }
+  .text-brand-green { color: #39FF14; }
+  .text-brand-gold  { color: #D4AF37; }
+  .text-brand-muted { color: #888888; }
+  .border-brand-green { border-color: rgba(57,255,20,0.3); }
+
+  .btn-green {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#39FF14] text-black font-bold tracking-wide text-sm transition-all duration-200 hover:bg-[#22cc00] hover:shadow-[0_0_30px_rgba(57,255,20,0.4)] active:scale-95;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 border border-white/20 text-white font-semibold text-sm transition-all duration-200 hover:border-white/50 hover:bg-white/5 active:scale-95;
+  }
+  .card {
+    @apply bg-[#111111] border border-white/5 rounded-sm;
+  }
+  .label {
+    @apply text-xs font-mono tracking-widest text-[#888888] uppercase;
+  }
+}
