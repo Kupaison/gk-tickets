@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { query } from "@/db";
+
+export const dynamic = "force-dynamic";
 
 /**
  * ONE-TIME endpoint to create the first admin staff user.
@@ -14,9 +15,10 @@ import { query } from "@/db";
  */
 export async function POST(req) {
   try {
+    const { query } = await import("@/db");
+
     const { secret, email, name, pin, role = "scanner", venueId } = await req.json();
 
-    // Guard with secret
     if (!process.env.ADMIN_SEED_SECRET) {
       return NextResponse.json(
         { error: "ADMIN_SEED_SECRET not configured" },
@@ -42,10 +44,8 @@ export async function POST(req) {
       );
     }
 
-    // Hash PIN
     const pinHash = await bcrypt.hash(String(pin), 12);
 
-    // Insert staff user
     const res = await query(
       `INSERT INTO staff_users (email, name, pin_hash, role, venue_id)
        VALUES ($1, $2, $3, $4, $5)
@@ -70,10 +70,10 @@ export async function POST(req) {
     return NextResponse.json({
       ok: true,
       staff: {
-        id:    staff.id,
+        id: staff.id,
         email: staff.email,
-        name:  staff.name,
-        role:  staff.role,
+        name: staff.name,
+        role: staff.role,
       },
     });
   } catch (err) {
@@ -82,7 +82,6 @@ export async function POST(req) {
   }
 }
 
-// Block GET requests
 export async function GET() {
   return NextResponse.json({ error: "POST only" }, { status: 405 });
 }
