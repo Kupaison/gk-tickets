@@ -2,6 +2,20 @@ import { Pool } from "pg";
 
 // Reuse connection pool across hot-reloads in dev
 const globalForPg = globalThis;
+const rawDbUrl = process.env.DATABASE_URL;
+
+if (!rawDbUrl) {
+  throw new Error("DATABASE_URL is missing");
+}
+
+let parsedHost = "unknown";
+try {
+  parsedHost = new URL(rawDbUrl).hostname;
+} catch {
+  throw new Error("DATABASE_URL is malformed");
+}
+
+console.log("[db] parsed host:", parsedHost);
 
 if (!globalForPg._pgPool) {
   globalForPg._pgPool = new Pool({
